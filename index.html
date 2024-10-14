@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html, body{
+            height: 100%;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-family: Urbanist;
+        }
+    </style>
+    <!-- Link to the manifest -->
+    <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+
+    <div>
+        <span></span>
+        <span>|</span>
+        <span></span>
+        <span>|</span>
+        <span></span>
+    </div>
+    <script>
+        let targets = document.querySelector('div').children;
+        let s = targets[0];
+        let m = targets[2];
+        let h = targets[4];
+        let c = 0;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            requestAnimationFrame(() => {
+                setInterval(() => {
+                    c += 1;
+                    s.textContent = c % 60;
+                    parseInt(c / 60) && (m.textContent = parseInt(c / 60));
+                    parseInt(c / 3600) && (h.textContent = parseInt(c / 3600));
+                }, 1000);
+            });
+        });
+
+        // Register the service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').then(() => {
+                console.log('Service Worker Registered');
+            });
+        }
+    </script>
+</body>
+
+</html>
